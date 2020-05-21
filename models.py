@@ -7,7 +7,7 @@ db = SQLAlchemy()
 
 database_path = os.environ.get('DATABASE_URL')
 if not database_path:
-    print("Running db locally")
+    print("Running local db")
     database_path = "postgres://localhost:5432/tunadex"
 
 def setup_db(app, database_path=database_path):
