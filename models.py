@@ -2,13 +2,10 @@ from sqlalchemy import Column, String, Integer, create_engine
 from flask_sqlalchemy import SQLAlchemy
 import json
 import os
-from app import app
 
 db = SQLAlchemy()
 
 database_path = os.environ['DATABASE_URL']
-
-# setup_db(app)
 
 def setup_db(app, database_path=database_path):
     app.config["SQLALCHEMY_DATABASE_URI"] = database_path
