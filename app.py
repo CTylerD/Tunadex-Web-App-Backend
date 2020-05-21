@@ -14,11 +14,13 @@ def create_app(text_config=None):
 
 app = create_app()
 
-def dummy_data(string):
+def dummy_data():
+    string = "hi!"
     return jsonify(string)
 
-string = "hi!"
-dummy_data(string)
+@app.route('/')
+def home():
+    return dummy_data()
 
 if __name__ == '__main__':
     app.run()
