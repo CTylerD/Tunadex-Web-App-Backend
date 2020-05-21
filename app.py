@@ -20,7 +20,7 @@ def dummy_data():
 
 @app.route('/')
 @requires_auth('get:tunes')
-def home():
+def home(jwt):
     return dummy_data()
 
 if __name__ == '__main__':
