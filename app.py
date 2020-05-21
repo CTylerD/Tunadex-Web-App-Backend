@@ -2,13 +2,13 @@ import os
 from flask import Flask, jsonify
 from models import setup_db
 from flask_cors import CORS
+from auth import requires_auth
 
 
 def create_app(text_config=None):
     app = Flask(__name__)
-    with app.app_context():
-        setup_db(app)
-        CORS(app)
+    setup_db(app)
+    CORS(app)
 
     return app
 
