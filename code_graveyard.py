@@ -33,3 +33,8 @@ database_path = os.environ.get('DATABASE_URL')
 if not database_path:
     print("Running local db")
     database_path = "postgres://localhost:5432/tunadex"
+
+
+@app.route('/login')
+def login():
+    return redirect(AUTH0_AUTHORIZE_URL)

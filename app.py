@@ -24,18 +24,13 @@ migrate = Migrate(app, db)
 
 @app.route('/')
 def index():
-    return jsonify('hi')
-
-
-@app.route('/home')
-#@requires_auth('get:tunes')
-def home():
     return render_template('/pages/index.html', auth_url=AUTH0_AUTHORIZE_URL)
 
 
-@app.route('/login')
-def login():
-    return redirect(AUTH0_AUTHORIZE_URL)
+@app.route('/home')
+@requires_auth('get:tunes')
+def home():
+    return jsonify('hi')
 
 
 if __name__ == '__main__':
