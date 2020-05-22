@@ -3,6 +3,9 @@ from flask import Flask, jsonify, redirect, render_template, session, url_for
 from models import setup_db
 from flask_cors import CORS
 from auth import requires_auth, AUTH0_AUTHORIZE_URL
+from flask_script import Manager
+from flask_migrate import Migrate, MigrateCommand
+from models import db
 
 
 def create_app(text_config=None):
@@ -14,7 +17,9 @@ def create_app(text_config=None):
 
 
 app = create_app()
-app.secret_key = 'very secret key'
+# app.secret_key = 'very secret key'
+
+migrate = Migrate(app, db)
 
 
 @app.route('/')
