@@ -13,6 +13,7 @@ def create_app(text_config=None):
 
     return app
 
+
 app = create_app()
 app.secret_key = 'very secret key'
 

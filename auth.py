@@ -8,7 +8,10 @@ from urllib.request import urlopen
 AUTH0_DOMAIN = 'fsndctd.auth0.com'
 ALGORITHMS = ['RS256']
 API_AUDIENCE = 'tunadex'
-AUTH0_AUTHORIZE_URL = 'https://fsndctd.auth0.com/authorize?audience=tunadex&response_type=token&client_id=WJsA7RsGClFh95xdmI0Q7R2yIy78QHHf&redirect_uri=https://tunadex.herokuapp.com/home'
+AUTH0_AUTHORIZE_URL = ('https://fsndctd.auth0.com/authorize?' +
+                       'audience=tunadex&response_type=token&' +
+                       'client_id=WJsA7RsGClFh95xdmI0Q7R2yIy78QHHf&' +
+                       'redirect_uri=https://tunadex.herokuapp.com/home')
 
 
 class AuthError(Exception):
@@ -64,7 +67,7 @@ def check_permissions(permission, payload):
             'code': 'unauthorized',
             'description': 'Permission not found'
         }, 403)
-    
+
     return True
 
 
@@ -89,7 +92,7 @@ def verify_decode_jwt(token):
                 'n': key['n'],
                 'e': key['e']
             }
-        
+
     if rsa_key:
         try:
             payload = jwt.decode(
@@ -124,6 +127,7 @@ def verify_decode_jwt(token):
             'description': 'Unable to find the appropriate key'
             }, 400)
 
+
 def requires_auth(permission=''):
 
     def requires_auth_decorator(f):
@@ -138,7 +142,7 @@ def requires_auth(permission=''):
 
             check_permissions(permission, payload)
             return f(payload, *args, **kwargs)
-        
+
         return wrapper
 
     return requires_auth_decorator
