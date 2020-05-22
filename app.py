@@ -29,7 +29,7 @@ def index():
 
 @app.route('/home')
 @requires_auth('get:tunes')
-def home():
+def home(jwt):
     return jsonify('hi')
 
 
