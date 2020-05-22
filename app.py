@@ -1,8 +1,9 @@
 import os
-from flask import Flask, jsonify
+from flask import Flask, jsonify, redirect, render_template, session, url_for
 from models import setup_db
 from flask_cors import CORS
-from auth import requires_auth
+from auth import requires_auth, AUTH0_AUTHORIZE_URL
+from authlib.integrations.flask_client import OAuth
 
 
 def create_app(text_config=None):
@@ -13,15 +14,24 @@ def create_app(text_config=None):
     return app
 
 app = create_app()
+app.secret_key = 'very secret key'
 
-def dummy_data():
-    string = "hi!"
-    return jsonify(string)
 
 @app.route('/')
+def index():
+    return jsonify('hi')
+
+
+@app.route('/home')
 @requires_auth('get:tunes')
 def home(jwt):
-    return dummy_data()
+    return jsonify('hi')
+
+
+@app.route('/login')
+def login():
+    return redirect(AUTH0_AUTHORIZE_URL)
+
 
 if __name__ == '__main__':
     app.run()

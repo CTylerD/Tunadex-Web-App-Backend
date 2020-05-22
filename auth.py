@@ -8,6 +8,7 @@ from urllib.request import urlopen
 AUTH0_DOMAIN = 'fsndctd.auth0.com'
 ALGORITHMS = ['RS256']
 API_AUDIENCE = 'tunadex'
+AUTH0_AUTHORIZE_URL = 'https://fsndctd.auth0.com/authorize?audience=tunadex&response_type=token&client_id=WJsA7RsGClFh95xdmI0Q7R2yIy78QHHf&redirect_uri=https://tunadex.herokuapp.com/home'
 
 
 class AuthError(Exception):
