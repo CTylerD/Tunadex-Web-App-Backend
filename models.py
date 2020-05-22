@@ -10,8 +10,7 @@ db = SQLAlchemy()
 #     print("Running local db")
 #     database_path = "postgres://localhost:5432/tunadex"
 
-DEV_DATABASE_URI = 'postgres://wdspwndlbhdcvj:d09f9e19edf9fb71d9879d37bde38c70415ba6a65a58dd695d3a7e075c2d1617@ec2-35-171-31-33.compute-1.amazonaws.com:5432/d3ib0ohrcrh0lh'
-database_path = DEV_DATABASE_URI
+database_path = 'postgres://wdspwndlbhdcvj:d09f9e19edf9fb71d9879d37bde38c70415ba6a65a58dd695d3a7e075c2d1617@ec2-35-171-31-33.compute-1.amazonaws.com:5432/d3ib0ohrcrh0lh'
 
 
 def setup_db(app, database_path=database_path):
@@ -68,7 +67,7 @@ class Composer(db.Model):
     __tablename__ = 'composer'
 
     id = Column(Integer, primary_key=True)
-    name = Column(String, nullable=False)
+    name = Column(String, nullable=False, unique=True)
 
     def __init__(self, id, name):
         self.id = id
@@ -176,8 +175,8 @@ class Playlist(db.Model):
         })
 
 
-class Playlist_Songs(db.Model):
-    __tablename__ = 'playlist_songs'
+class Playlist_Song(db.Model):
+    __tablename__ = 'playlist_song'
 
     id = Column(Integer, primary_key=True)
     playlist = Column(Integer, ForeignKey('playlist.id'), nullable=False)
