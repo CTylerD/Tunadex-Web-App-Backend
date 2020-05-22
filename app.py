@@ -28,9 +28,9 @@ def index():
 
 
 @app.route('/home')
-@requires_auth('get:tunes')
-def home(jwt):
-    return jsonify('hi')
+#@requires_auth('get:tunes')
+def home():
+    return render_template('/pages/index.html', auth_url=AUTH0_AUTHORIZE_URL)
 
 
 @app.route('/login')

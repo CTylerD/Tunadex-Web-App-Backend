@@ -5,11 +5,6 @@ import os
 
 db = SQLAlchemy()
 
-# database_path = os.environ.get('DATABASE_URL')
-# if not database_path:
-#     print("Running local db")
-#     database_path = "postgres://localhost:5432/tunadex"
-
 database_path = 'postgres://wdspwndlbhdcvj:d09f9e19edf9fb71d9879d37bde38c70415ba6a65a58dd695d3a7e075c2d1617@ec2-35-171-31-33.compute-1.amazonaws.com:5432/d3ib0ohrcrh0lh'
 
 
@@ -175,16 +170,16 @@ class Playlist(db.Model):
         })
 
 
-class Playlist_Song(db.Model):
-    __tablename__ = 'playlist_song'
+class Playlist_Tune(db.Model):
+    __tablename__ = 'playlist_tune'
 
     id = Column(Integer, primary_key=True)
     playlist = Column(Integer, ForeignKey('playlist.id'), nullable=False)
     tune = Column(Integer, ForeignKey('tune.id'), nullable=False)
 
-    def __init__(self, playlist, song):
+    def __init__(self, playlist, tune):
         self.playlist = playlist
-        self.song = song
+        self.tune = tune
 
     def insert(self):
         db.session.add(self)

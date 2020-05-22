@@ -26,3 +26,10 @@ def callback_handling():
         'picture': userinfo['picture']
     }
     return redirect('/home')
+
+
+
+database_path = os.environ.get('DATABASE_URL')
+if not database_path:
+    print("Running local db")
+    database_path = "postgres://localhost:5432/tunadex"
