@@ -3,7 +3,6 @@ from flask import Flask, jsonify, redirect, render_template, session, url_for
 from models import setup_db
 from flask_cors import CORS
 from auth import requires_auth, AUTH0_AUTHORIZE_URL
-from authlib.integrations.flask_client import OAuth
 
 
 def create_app(text_config=None):
