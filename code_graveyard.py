@@ -38,3 +38,9 @@ if not database_path:
 @app.route('/login')
 def login():
     return redirect(AUTH0_AUTHORIZE_URL)
+
+
+
+# app = create_app()
+# app.secret_key = 'very secret key'
+

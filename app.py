@@ -16,21 +16,9 @@ CORS(app)
 
 migrate = Migrate(app, db)
 
-#    return app
-
-
-# app = create_app()
-# app.secret_key = 'very secret key'
-
-
 @app.route('/')
 def index():
     return render_template('/pages/index.html', auth_url=AUTH0_AUTHORIZE_URL)
-
-
-# @app.route('/login/')
-# def login():
-#     return auth0.authorize_redirect(redirect_uri=REDIRECT_URI)
 
 
 @app.route('/home/')
