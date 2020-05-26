@@ -17,21 +17,6 @@ CORS(app)
 migrate = Migrate(app, db)
 
 
-def tune_to_json(tunes_list):
-    # Converts list of tunes into json of tunes and metadata
-    try:
-        library = {'tunes': {}}
-        for tune in tunes_list:
-            library['tunes'][tune.title] = {}
-            library['tunes'][tune.title]['composer'] = tune.composer
-            library['tunes'][tune.title]['key'] = tune.key
-            library['tunes'][tune.title]['mastery'] = tune.mastery
-        return json.dumps(library)
-    except Exception as e:
-        print(e)
-        abort(400)
-
-
 def return_composer(composer_name):
     composer_entry = Composer.query.filter_by(name=composer_name).first()
     if composer_entry is None:
@@ -58,12 +43,19 @@ def home(jwt):
     return 0
 
 
-@app.route('/tunes', methods=['GET'])
+@app.route('/tunes/', methods=['GET'])
 def all_tunes():
     # Returns a list of all tunes from database.
     try:
-        tunes = Tune.query.order_by(Tune.title).all()
-        return tune_to_json(tunes)
+        tunes_list = Tune.query.order_by(Tune.title).all()
+        library = {'tunes': {}}
+        for tune in tunes_list:
+            library['tunes'][tune.title] = {}
+            library['tunes'][tune.title]['composer'] = tune.composer
+            library['tunes'][tune.title]['key'] = tune.key
+            library['tunes'][tune.title]['mastery'] = tune.mastery
+            print
+        return json.dumps(library)
     except Exception as e:
         print(e)
         abort(400)
@@ -74,9 +66,12 @@ def tune_info(id):
     # Returns the requested tune from database.
     try:
         tune = Tune.query.filter_by(id=id).first()
-        tune_list = []
-        tune_list.append(tune)
-        return tune_to_json(tune_list)
+        library = {}
+        library['title'] = tune.title
+        library['composer'] = tune.composer
+        library['key'] = tune.key
+        library['mastery'] = tune.mastery
+        return json.dumps(library)
     except Exception as e:
         print(e)
         abort(400)
