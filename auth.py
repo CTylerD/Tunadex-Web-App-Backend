@@ -9,7 +9,7 @@ AUTH0_DOMAIN = 'fsndctd.auth0.com'
 ALGORITHMS = ['RS256']
 API_AUDIENCE = 'tunadex'
 
-REDIRECT_URI = 'https://tunadex-dev.herokuapp.com/home/'
+REDIRECT_URI = 'https://127.0.0.1:5000/home/'
 CLIENT_ID = 'WJsA7RsGClFh95xdmI0Q7R2yIy78QHHf'
 AUTH0_AUTHORIZE_URL = ('https://' + AUTH0_DOMAIN + '/authorize?' +
                        'audience=' + API_AUDIENCE + '&response_type=token' +

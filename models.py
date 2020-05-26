@@ -1,5 +1,6 @@
 from sqlalchemy import Column, String, Integer, create_engine, ForeignKey
 from flask_sqlalchemy import SQLAlchemy
+from flask import jsonify
 import json
 import os
 
@@ -27,7 +28,7 @@ class Tune(db.Model):
     __tablename__ = 'tune'
 
     id = Column(Integer, primary_key=True)
-    title = Column(String, nullable=False)
+    title = Column(String, nullable=False, unique=True)
     composer = Column(Integer, ForeignKey('composer.id'))
     mastery = Column(Integer, ForeignKey('mastery.id'))
     key = Column(Integer, ForeignKey('key.id'))
@@ -50,12 +51,12 @@ class Tune(db.Model):
         db.session.commit()
 
     def format(self):
-        return jsonify({
+        return {
             'title': self.title,
             'composer': self.composer,
             'mastery': self.mastery,
             'key': self.key
-        })
+        }
 
 
 class Composer(db.Model):
@@ -64,8 +65,7 @@ class Composer(db.Model):
     id = Column(Integer, primary_key=True)
     name = Column(String, nullable=False, unique=True)
 
-    def __init__(self, id, name):
-        self.id = id
+    def __init__(self, name):
         self.name = name
 
     def insert(self):
@@ -80,10 +80,10 @@ class Composer(db.Model):
         db.session.commit()
 
     def format(self):
-        return jsonify({
+        return {
             'id': self.id,
             'name': self.name
-        })
+        }
 
 
 class Mastery(db.Model):
@@ -108,10 +108,10 @@ class Mastery(db.Model):
         db.session.commit()
 
     def format(self):
-        return jsonify({
+        return {
             'id': self.id,
             'level': self.level
-        })
+        }
 
 
 class Key(db.Model):
@@ -136,10 +136,10 @@ class Key(db.Model):
         db.session.commit()
 
     def format(self):
-        return jsonify({
+        return {
             'id': self.id,
             'key': self.key
-        })
+        }
 
 
 class Playlist(db.Model):
@@ -164,10 +164,10 @@ class Playlist(db.Model):
         db.session.commit()
 
     def format(self):
-        return jsonify({
+        return {
             'id': self.id,
             'playlist': self.name
-        })
+        }
 
 
 class Playlist_Tune(db.Model):
@@ -193,7 +193,7 @@ class Playlist_Tune(db.Model):
         db.session.commit()
 
     def format(self):
-        return jsonify({
+        return {
             'playlist': self.playlist,
             'tune': self.tune
-        })
+        }
