@@ -8,11 +8,14 @@ from flask_script import Manager
 from flask_migrate import Migrate, MigrateCommand
 from models import db, Tune, Composer, Mastery, Key, Playlist, Playlist_Tune
 
+def create_app():
+    app = Flask(__name__)
+    app.secret_key = 'secret key'
+    setup_db(app)
+    CORS(app)
+    return app
 
-app = Flask(__name__)
-app.secret_key = 'app'
-setup_db(app)
-CORS(app)
+app = create_app()
 
 migrate = Migrate(app, db)
 
@@ -30,54 +33,57 @@ def return_composer(composer_name):
             abort(400)
     return composer_entry
 
+def tunes_to_dict(tune_list):
+    library = {}
+    for tune in tune_list:
+        library[tune.title] = {}
+        library[tune.title]['composer'] = tune.composer
+        library[tune.title]['key'] = tune.key
+        library[tune.title]['mastery'] = tune.mastery
+    return library
+
+
+
 
 @app.route('/')
 def index():
     return render_template('/pages/index.html', auth_url=AUTH0_AUTHORIZE_URL)
 
 
-@app.route('/home/')
-def home(jwt):
-    token = request.get('token')
-    print(token)
-    return 0
-
-
 @app.route('/tunes/', methods=['GET'])
-def all_tunes():
+@requires_auth("get:tunes")
+def all_tunes(jwt):
     # Returns a list of all tunes from database.
     try:
-        tunes_list = Tune.query.order_by(Tune.title).all()
-        library = {'tunes': {}}
-        for tune in tunes_list:
-            library['tunes'][tune.title] = {}
-            library['tunes'][tune.title]['composer'] = tune.composer
-            library['tunes'][tune.title]['key'] = tune.key
-            library['tunes'][tune.title]['mastery'] = tune.mastery
-            print
-        return json.dumps(library)
+        tune_list = Tune.query.order_by(Tune.title).all()
+        library = tunes_to_dict(tune_list)
+        return json.dumps({
+            "success": True,
+            "tunes": library
+        }), 200
     except Exception as e:
         print(e)
         abort(400)
 
 
 @app.route('/tunes/<id>', methods=['GET'])
+@requires_auth("get:tunes")
 def tune_info(id):
     # Returns the requested tune from database.
     try:
         tune = Tune.query.filter_by(id=id).first()
-        library = {}
-        library['title'] = tune.title
-        library['composer'] = tune.composer
-        library['key'] = tune.key
-        library['mastery'] = tune.mastery
-        return json.dumps(library)
+        library = tunes_to_dict([tune])
+        return json.dumps({
+            "success": True,
+            "tunes": library
+        }), 200
     except Exception as e:
         print(e)
         abort(400)
 
 
 @app.route('/tunes/', methods=['POST'])
+@requires_auth("post:tunes")
 def add_tune():
     # Retrieves the tune metadata from the request.
     tune_data = json.loads(request.data.decode('utf-8'))
@@ -108,6 +114,7 @@ def add_tune():
 
 
 @app.route('/tunes/<id>', methods=['PATCH'])
+@requires_auth("patch:tunes")
 def edit_tune(id):
     data = json.loads(request.data.decode('utf-8'))
     tune = Tune.query.filter_by(id=id).first()
@@ -130,6 +137,7 @@ def edit_tune(id):
 
 
 @app.route('/tunes/<id>', methods=['DELETE'])
+@requires_auth("delete:tunes")
 def delete_tune(id):
     tune = Tune.query.filter_by(id=id).first()
 
@@ -139,32 +147,6 @@ def delete_tune(id):
         print(e)
         abort(400)
     return json.dumps({'success': True, "deleted tune": tune.format()})
-
-
-
-@app.route('/playlists', methods=['GET'])
-def all_playlists():
-    return "not implemented"
-
-
-@app.route('/playlists/<id>', methods=['GET'])
-def playlist_info(id):
-    return "not implemented"
-
-
-@app.route('/playlists/<id>', methods=['POST'])
-def add_playlist(id):
-    return "not implemented"
-
-
-@app.route('/playlists/<id>', methods=['PATCH'])
-def edit_playlist(id):
-    return "not implemented"
-
-
-@app.route('/playlists/<id>', methods=['DELETE'])
-def delete_playlist(id):
-    return "not implemented"
 
 
 @app.errorhandler(422)
