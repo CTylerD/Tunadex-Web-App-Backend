@@ -10,13 +10,11 @@ from models import db, Tune, Composer, Mastery, Key, Playlist, Playlist_Tune
 
 def create_app():
     app = Flask(__name__)
-    app.secret_key = 'secret key'
     setup_db(app)
     CORS(app)
     return app
 
 app = create_app()
-
 migrate = Migrate(app, db)
 
 
@@ -27,10 +25,9 @@ def return_composer(composer_name):
         try:
             new_composer.insert()
             composer_entry = Composer.query.filter_by(name=composer_name)\
-                                           .first()
+                                        .first()
         except Exception as e:
-            print("Composer failed to insert")
-            abort(400)
+            abort(400, "Composer failed to insert!")
     return composer_entry
 
 def tunes_to_dict(tune_list):
@@ -43,8 +40,6 @@ def tunes_to_dict(tune_list):
     return library
 
 
-
-
 @app.route('/')
 def index():
     return render_template('/pages/index.html', auth_url=AUTH0_AUTHORIZE_URL)
@@ -55,7 +50,10 @@ def index():
 def all_tunes(jwt):
     # Returns a list of all tunes from database.
     try:
-        tune_list = Tune.query.order_by(Tune.title).all()
+        tune_list = Tune.query.all()
+        if tune_list is None:
+            abort(404, 'There are no tunes in the database!')
+
         library = tunes_to_dict(tune_list)
         return json.dumps({
             "success": True,
@@ -66,33 +64,42 @@ def all_tunes(jwt):
         abort(400)
 
 
-@app.route('/tunes/<id>', methods=['GET'])
+@app.route('/tunes/<id>/', methods=['GET'])
 @requires_auth("get:tunes")
-def tune_info(id):
-    # Returns the requested tune from database.
+def single_tune_info(jwt, id):
     try:
+        id = int(id)
         tune = Tune.query.filter_by(id=id).first()
+
+        if tune is None:
+            abort(404, "Tune with this id not found!")
+
         library = tunes_to_dict([tune])
         return json.dumps({
             "success": True,
-            "tunes": library
+            "tune": library
         }), 200
+    except ValueError:
+        abort(400, "Tune id must be an integer")
     except Exception as e:
-        print(e)
-        abort(400)
+        if tune is None:
+            print(e)
+            abort(404)
+        else: 
+            print(e)
+            abort(400)
 
 
 @app.route('/tunes/', methods=['POST'])
 @requires_auth("post:tunes")
-def add_tune():
+def add_tune(jwt):
     # Retrieves the tune metadata from the request.
     tune_data = json.loads(request.data.decode('utf-8'))
 
     # Determines whether or not the tune is already in the database.
     tune_exists = Tune.query.filter_by(title=tune_data['title']).first()
     if tune_exists is not None:
-        print("A tune with this title already exists!")
-        abort(409)
+        abort(409, "A tune with this title already exists!")
 
     # Retrieves the composer and key objects, for determining their IDs.
     composer = return_composer(tune_data['composer'])
@@ -107,7 +114,7 @@ def add_tune():
     try:
         new_tune.insert()
         return json.dumps({'success': True,
-                           'new tune': new_tune.format()})
+                        'new tune': new_tune.format()})
     except Exception as e:
         print(e)
         abort(400)
@@ -115,7 +122,7 @@ def add_tune():
 
 @app.route('/tunes/<id>', methods=['PATCH'])
 @requires_auth("patch:tunes")
-def edit_tune(id):
+def edit_tune(jwt, id):
     data = json.loads(request.data.decode('utf-8'))
     tune = Tune.query.filter_by(id=id).first()
     if tune is None:
@@ -130,7 +137,7 @@ def edit_tune(id):
         tune.mastery = data['mastery']
     try:
         tune.update()
-        return json.dumps({'success': True, "updated tune": tune.format()})
+        return json.dumps({'success': True, "updated tune": tune.format()}), 200
     except Exception as e:
         print(e)
         abort(400)
@@ -138,11 +145,12 @@ def edit_tune(id):
 
 @app.route('/tunes/<id>', methods=['DELETE'])
 @requires_auth("delete:tunes")
-def delete_tune(id):
+def delete_tune(jwt, id):
     tune = Tune.query.filter_by(id=id).first()
 
     try:
         tune.delete()
+        db.session.commit()
     except Exception as e:
         print(e)
         abort(400)
