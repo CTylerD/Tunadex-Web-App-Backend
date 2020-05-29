@@ -30,7 +30,7 @@ def return_composer(composer_name):
             composer_entry = Composer.query.filter_by(name=composer_name)\
                 .first()
         except Exception as e:
-            abort(400, 'Composer failed to insert!')
+            abort(400, "Composer failed to insert!")
     return composer_entry
 
 
@@ -156,7 +156,7 @@ def delete_tune(jwt, id):
     tune = Tune.query.filter_by(id=id).first()
 
     if tune is None:
-        abort(422, 'The tune doesn't exist!')
+        abort(422, "The tune doesn't exist!")
     try:
         tune.delete()
         db.session.commit()
