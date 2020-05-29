@@ -12,7 +12,7 @@ DATABASE_URL = ('postgresql://wdspwndlbhdcvj:d09f9e19edf9fb71d9879d37bde38c7'
                  '1.amazonaws.com:5432/d3ib0ohrcrh0lh')
 
 
-def setup_db(app, database_path=database_path):
+def setup_db(app, database_path=DATABASE_URL):
     app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_URL
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     db.app = app
