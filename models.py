@@ -7,13 +7,13 @@ import os
 db = SQLAlchemy()
 
 database_name = 'tunadex'
-database_path = ('postgresql://wdspwndlbhdcvj:d09f9e19edf9fb71d9879d37bde38c7'
+DATABASE_URL = ('postgresql://wdspwndlbhdcvj:d09f9e19edf9fb71d9879d37bde38c7'
                  '0415ba6a65a58dd695d3a7e075c2d1617@ec2-35-171-31-33.compute-'
                  '1.amazonaws.com:5432/d3ib0ohrcrh0lh')
 
 
 def setup_db(app, database_path=database_path):
-    app.config["SQLALCHEMY_DATABASE_URI"] = database_path
+    app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_URL
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     db.app = app
     db.init_app(app)

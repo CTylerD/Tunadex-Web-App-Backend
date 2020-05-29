@@ -2,6 +2,7 @@ import os
 from flask import (Flask, jsonify, redirect, render_template, session,
                    url_for, request, abort)
 import json
+import requests
 from models import setup_db
 from flask_cors import CORS
 from auth import requires_auth, AUTH0_AUTHORIZE_URL
@@ -42,6 +43,18 @@ def tunes_to_dict(tune_list):
         library[tune.title]['key'] = tune.key
         library[tune.title]['mastery'] = tune.mastery
     return library
+
+
+@app.after_request
+def after_request(response):
+    response.headers.add(
+        'Access-Control-Allow-Headers', 'Content-Type, Authorization'
+    )
+    response.headers.add(
+        'Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE'
+    )
+    
+    return response
 
 
 @app.route('/')
