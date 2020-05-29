@@ -7,7 +7,9 @@ import os
 db = SQLAlchemy()
 
 database_name = 'tunadex'
-database_path = 'postgresql://wdspwndlbhdcvj:d09f9e19edf9fb71d9879d37bde38c70415ba6a65a58dd695d3a7e075c2d1617@ec2-35-171-31-33.compute-1.amazonaws.com:5432/d3ib0ohrcrh0lh'
+database_path = ('postgresql://wdspwndlbhdcvj:d09f9e19edf9fb71d9879d37bde38c7'
+                 '0415ba6a65a58dd695d3a7e075c2d1617@ec2-35-171-31-33.compute-'
+                 '1.amazonaws.com:5432/d3ib0ohrcrh0lh')
 
 
 def setup_db(app, database_path=database_path):
@@ -16,6 +18,7 @@ def setup_db(app, database_path=database_path):
     db.app = app
     db.init_app(app)
     db.create_all()
+
 
 class Tune(db.Model):
     __tablename__ = 'tune'
@@ -44,12 +47,12 @@ class Tune(db.Model):
         db.session.commit()
 
     def format(self):
-        return {
-            'title': self.title,
-            'composer': self.composer,
-            'mastery': self.mastery,
-            'key': self.key
-        }
+        return json.dumps({
+            "title": self.title,
+            "composer": self.composer,
+            "mastery": self.mastery,
+            "key": self.key
+        })
 
 
 class Composer(db.Model):
@@ -73,9 +76,9 @@ class Composer(db.Model):
         db.session.commit()
 
     def format(self):
-        return {
-            'name': self.name
-        }
+        return json.dumps({
+            "name": self.name
+        })
 
 
 class Mastery(db.Model):
@@ -99,9 +102,9 @@ class Mastery(db.Model):
         db.session.commit()
 
     def format(self):
-        return {
-            'level': self.level
-        }
+        return json.dumps({
+            "level": self.level
+        })
 
 
 class Key(db.Model):
@@ -125,9 +128,9 @@ class Key(db.Model):
         db.session.commit()
 
     def format(self):
-        return {
-            'key': self.key
-        }
+        return json.dumps({
+            "key": self.key
+        })
 
 
 class Playlist(db.Model):
@@ -151,16 +154,17 @@ class Playlist(db.Model):
         db.session.commit()
 
     def format(self):
-        return {
-            'playlist': self.name
-        }
+        return json.dumps({
+            "playlist": self.name
+        })
 
 
 class Playlist_Tune(db.Model):
     __tablename__ = 'playlist_tune'
 
     id = db.Column(db.Integer, primary_key=True)
-    playlist = db.Column(db.Integer, db.ForeignKey('playlist.id'), nullable=False)
+    playlist = db.Column(db.Integer, db.ForeignKey('playlist.id'),
+                         nullable=False)
     tune = db.Column(db.Integer, db.ForeignKey('tune.id'), nullable=False)
 
     def __init__(self, playlist, tune):
@@ -179,7 +183,7 @@ class Playlist_Tune(db.Model):
         db.session.commit()
 
     def format(self):
-        return {
-            'playlist': self.playlist,
-            'tune': self.tune
-        }
+        return json.dumps({
+            "playlist": self.playlist,
+            "tune": self.tune
+        })
