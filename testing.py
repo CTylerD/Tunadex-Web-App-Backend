@@ -4,10 +4,10 @@ import json
 from flask import Flask
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
-from models import (setup_db, Tune, Playlist, Composer, Key, Mastery,
+from database.models import (setup_db, Tune, Playlist, Composer, Key, Mastery,
                     Playlist_Tune)
 from app import app
-from auth import AuthError
+from authentication.auth import AuthError
 
 
 teacher_auth_header = {
