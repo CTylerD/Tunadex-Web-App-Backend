@@ -8,10 +8,12 @@ from flask_script import Manager
 from flask_migrate import Migrate, MigrateCommand
 if __package__ is None or __package__ == '':
     from authentication.auth import requires_auth, AUTH0_AUTHORIZE_URL
-    from database.models import setup_db, db, Tune, Composer, Mastery, Key, Playlist, Playlist_Tune
+    from database.models import (setup_db, db, Tune, Composer, Mastery, Key,
+          Playlist, Playlist_Tune)
 else:
     from .authentication.auth import requires_auth, AUTH0_AUTHORIZE_URL
-    from .database.models import setup_db, db, Tune, Composer, Mastery, Key, Playlist, Playlist_Tune
+    from .database.models import (setup_db, db, Tune, Composer, Mastery, Key,
+          Playlist, Playlist_Tune)
 
 
 def create_app():
@@ -56,7 +58,7 @@ def after_request(response):
     response.headers.add(
         'Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE'
     )
-    
+
     return response
 
 
@@ -95,6 +97,7 @@ def single_tune_info(jwt, id):
             abort(404, 'Tune with this id not found!')
 
         library = tunes_to_dict([tune])
+        print(library)
         return json.dumps({
             "success": True,
             "tune": library

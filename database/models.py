@@ -7,7 +7,9 @@ import os
 db = SQLAlchemy()
 
 database_name = 'tunadex'
-DATABASE_URL = ('postgres://ewjgvziegmlphb:4958d4551c9c85a92b84ecfc8bd2057c443ae30cfe1f5e323b6686cadcc3fb46@ec2-50-17-90-177.compute-1.amazonaws.com:5432/d4ljtq026pifi9')
+DATABASE_URL = ('postgres://ewjgvziegmlphb:4958d4551c9c85a92b84ecfc8bd2057c44'
+                '3ae30cfe1f5e323b6686cadcc3fb46@ec2-50-17-90-177.compute-1.am'
+                'azonaws.com:5432/d4ljtq026pifi9')
 
 
 def setup_db(app, database_path=DATABASE_URL):
@@ -45,12 +47,12 @@ class Tune(db.Model):
         db.session.commit()
 
     def format(self):
-        return json.dumps({
+        return {
             "title": self.title,
             "composer": self.composer,
-            "mastery": self.mastery,
-            "key": self.key
-        })
+            "key": self.key,
+            "mastery": self.mastery
+        }
 
 
 class Composer(db.Model):
