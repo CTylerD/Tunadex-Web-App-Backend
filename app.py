@@ -3,12 +3,11 @@ from flask import (Flask, jsonify, redirect, render_template, session,
                    url_for, request, abort)
 import json
 import requests
-from models import setup_db
 from flask_cors import CORS
-from auth import requires_auth, AUTH0_AUTHORIZE_URL
+from .auth import requires_auth, AUTH0_AUTHORIZE_URL
 from flask_script import Manager
 from flask_migrate import Migrate, MigrateCommand
-from models import db, Tune, Composer, Mastery, Key, Playlist, Playlist_Tune
+from .models import setup_db, db, Tune, Composer, Mastery, Key, Playlist, Playlist_Tune
 
 
 def create_app():
