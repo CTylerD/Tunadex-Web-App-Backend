@@ -21,9 +21,9 @@ export FLASK_APP=app
 export FLASK_ENV=development
 flask run
 ```
-'This application is run locally on `https://127.0.0.1:5000/` by default.
+This application is run locally on `https://127.0.0.1:5000/` by default.
 
-Then, to set up the local database, run the following commands:
+To set up the local database, run the following commands:
 ```
 createdb tunadex_local_dev
 flask db init
@@ -44,7 +44,7 @@ All tests are stored in this file and will be maintained as updates are made to 
 ---
 
 ### Getting Started
-
+---
 This reference will provide all of the necessary information for data stored in the Tunadex.
 
 The base URL for this project is http://tunadex.herokuapp.com/.
@@ -53,7 +53,7 @@ The base URL for this project is http://tunadex.herokuapp.com/.
 Tunadex uses Auth0 as a third-party authentication platform, and temporary keys for testing purposes are located in `testing.py` or `setup.sh`.
 
 ### Error Handling
-
+---
 **HTTP response codes in use:**
 
 - 200 - OK
@@ -73,7 +73,7 @@ Error messages will be returned in the following format:
             }
             
 ### Endpoint Library
-
+---
 Prior to using the curl requests provided, you will need to initialize the provided JWT that authenticates these requests by retrieving the TEACHER_TOKEN from the setup.sh file and using the following command:
 ```
 TEACHER_TOKEN=<Token string from setup.sh file>
@@ -213,4 +213,5 @@ curl -X DELETE -H "Content-Type: application/json" -H "Authorization: Bearer $TE
 ```
 
 ## Contributing Authors
+---
 C. Tyler Dennis

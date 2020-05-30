@@ -47,6 +47,7 @@ class TunesTestCase(unittest.TestCase):
         self.app = app
         self.client = self.app.test_client
         self.database_name = "tunadex_local_db"
+        # Local database for testing purposes
         self.database_path = ("postgresql://postgres:postgres@localhost:5432"
                               f"/{self.database_name}")
         setup_db(self.app, self.database_path)

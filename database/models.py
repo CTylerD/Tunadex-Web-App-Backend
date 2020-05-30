@@ -6,7 +6,7 @@ import os
 
 db = SQLAlchemy()
 
-database_name = 'tunadex'
+# Production database URL
 DATABASE_URL = ('postgres://ewjgvziegmlphb:4958d4551c9c85a92b84ecfc8bd2057c44'
                 '3ae30cfe1f5e323b6686cadcc3fb46@ec2-50-17-90-177.compute-1.am'
                 'azonaws.com:5432/d4ljtq026pifi9')
