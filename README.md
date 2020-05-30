@@ -90,6 +90,7 @@ TEACHER_TOKEN=<Token string from setup.sh file>
 curl -H "Content-Type: application/json" -H "Authorization: Bearer $TEACHER_TOKEN" https://tunadex.herokuapp.com/tunes/
 ```
 
+```
 {
     "success": true, "tunes": {
         "Body and Soul": {
@@ -118,6 +119,7 @@ curl -H "Content-Type: application/json" -H "Authorization: Bearer $TEACHER_TOKE
         }
     }
 }
+```
 
 **GET /tunes/<tune_id>**
 
@@ -129,7 +131,7 @@ curl -H "Content-Type: application/json" -H "Authorization: Bearer $TEACHER_TOKE
 ```
 curl -H "Content-Type: application/json" -H "Authorization: Bearer $TEACHER_TOKEN" https://tunadex.herokuapp.com/tunes/1/
 ```
-
+```
 {
     "success": true, "tune": {
         "Body and Soul": {
@@ -139,6 +141,7 @@ curl -H "Content-Type: application/json" -H "Authorization: Bearer $TEACHER_TOKE
         }
     }
 }
+```
 
 **POST /tunes/**
 
@@ -151,6 +154,7 @@ curl -H "Content-Type: application/json" -H "Authorization: Bearer $TEACHER_TOKE
 curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer $TEACHER_TOKEN" -d '{"title": "Ruby, My Dear", "composer": "Thelonious Monk", "key": "F Minor", "mastery": 3}' https://tunadex.herokuapp.com/tunes/
 ```
 
+```
 {
     "success": true,
     "new tune": {
@@ -160,6 +164,7 @@ curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer $TEAC
         "mastery": 3
     }
 }
+```
 
 **PATCH /tunes/<tune_id>**
 
@@ -172,6 +177,7 @@ curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer $TEAC
 curl -X PATCH -H "Content-Type: application/json" -H "Authorization: Bearer $TEACHER_TOKEN" -d '{"mastery": 5}' https://tunadex.herokuapp.com/tunes/5/
 ```
 
+```
 {
     "success": true,
     "updated tune": {
@@ -181,7 +187,7 @@ curl -X PATCH -H "Content-Type: application/json" -H "Authorization: Bearer $TEA
         "mastery": 5
     }
 }
-
+```
 
 **DELETE /tunes/<tune_id>/**
 
@@ -193,6 +199,8 @@ curl -X PATCH -H "Content-Type: application/json" -H "Authorization: Bearer $TEA
 ```
 curl -X DELETE -H "Content-Type: application/json" -H "Authorization: Bearer $TEACHER_TOKEN" https://tunadex-dev.herokuapp.com/tunes/2
 ```
+
+```
 {
     "success": true,
     "deleted tune": {
@@ -202,8 +210,7 @@ curl -X DELETE -H "Content-Type: application/json" -H "Authorization: Bearer $TE
         "mastery": 5
     }
 }
+```
 
-
-
-### Contributing Authors
+## Contributing Authors
 C. Tyler Dennis
