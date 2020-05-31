@@ -9,11 +9,11 @@ from flask_migrate import Migrate, MigrateCommand
 if __package__ is None or __package__ == '':
     from authentication.auth import requires_auth, AUTH0_AUTHORIZE_URL
     from database.models import (setup_db, db, Tune, Composer, Mastery, Key,
-          Playlist, Playlist_Tune)
+                                 Playlist, Playlist_Tune)
 else:
     from .authentication.auth import requires_auth, AUTH0_AUTHORIZE_URL
     from .database.models import (setup_db, db, Tune, Composer, Mastery, Key,
-          Playlist, Playlist_Tune)
+                                  Playlist, Playlist_Tune)
 
 
 def create_app():
