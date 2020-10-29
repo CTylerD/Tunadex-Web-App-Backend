@@ -4,8 +4,8 @@
 
 ### Stack
 The API was written in Python using the Flask framework, supported by a database in SQLAlchemy and authentication using Auth0.
----
 
+---
 Tunadex allows music students to keep track of the songs that they're learning! It can be nearly impossible to keep up with the tunes you'd like the learn, the tunes you're actively learning, and the tunes you already know, and countless professional musicians have messy spreadsheets that have fallen into disrepair after trying to do just that. Enter...TUNADEX!
 
 Tunadex is a place for you to store and neatly categorize all of these tunes. You will be able to add a tune, categorize it according to how well you know it, and even organize playlists of tunes that you might be learning for specific gigs, lessons, or teachers.
