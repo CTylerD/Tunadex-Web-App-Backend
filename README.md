@@ -2,7 +2,7 @@
 
 ## Udacity Full Stack Web Development Nanodegree - Capstone Project
 
-### Stack
+### Stack:
 The API was written in Python using the Flask framework, supported by a database in SQLAlchemy and authentication using Auth0.
 
 ---
