@@ -3,7 +3,7 @@
 ## Udacity Full Stack Web Development Nanodegree - Capstone Project
 
 ### Stack:
-The API was written in Python using the Flask framework, supported by a database in SQLAlchemy and authentication using Auth0.
+The API was written in Python using the Flask framework, supported by a Postgres database (interfacing with SQLAlchemy ORM) and Auth0's authentication service.
 
 ---
 Tunadex allows music students to keep track of the songs that they're learning! It can be nearly impossible to keep up with the tunes you'd like the learn, the tunes you're actively learning, and the tunes you already know, and countless professional musicians have messy spreadsheets that have fallen into disrepair after trying to do just that. Enter...TUNADEX!
