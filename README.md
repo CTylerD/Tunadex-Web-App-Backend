@@ -1,7 +1,5 @@
 # Tunadex: Track your tune knowledge!
 
-## Udacity Full Stack Web Development Nanodegree - Capstone Project
-
 ### Stack:
 The API was written in Python using the Flask framework, supported by a Postgres database (interfacing with SQLAlchemy ORM) and Auth0's authentication service.
 
@@ -218,9 +216,7 @@ curl -X DELETE -H "Content-Type: application/json" -H "Authorization: Bearer $TE
 ```
 
 ## Contributing Authors
-
 C. Tyler Dennis
 
 ## Licensing
-
 This project is released under the [MIT License](https://opensource.org/licenses/MIT)
